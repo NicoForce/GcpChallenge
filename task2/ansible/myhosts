@@ -1,1 +1,5 @@
+[instance]
 task2-instance ansible_host=104.154.146.24 ansible_ssh_user=admin ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+
+[instance:vars]
+ansible_python_interpreter=/usr/bin/python2.7

@@ -21,10 +21,12 @@ terraform apply -auto-approve \
 HOST_IP=$(terraform output nat_ip)
 cd ..
 
-ansible playbook
+#ansible playbook
 echo $HOST_IP
 rm ansible/myhosts
-echo "task2-instance ansible_host=${HOST_IP} ansible_ssh_user=admin ansible_ssh_extra_args='-o StrictHostKeyChecking=no'" \
-  > ansible/myhosts
+cat <<EOF > ansible/myhosts
+[instance]
+task2-instance ansible_host=${HOST_IP} ansible_ssh_user=admin ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+EOF
 ansible-playbook ansible/instance-playbook.yml -i ansible/myhosts --private-key=id_rsa
 
