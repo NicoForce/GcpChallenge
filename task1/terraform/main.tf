@@ -17,7 +17,7 @@ resource "google_container_cluster" "default" {
     password = ""
 
     client_certificate_config {
-      issue_client_certificate = true
+      issue_client_certificate = false
     }
   }
 }
@@ -29,7 +29,7 @@ resource "google_container_node_pool" "default" {
   node_count = var.initial_node_count
 
   node_config {
-    preemptible  = false
+    preemptible  = true
     machine_type = var.machine_type
 
     metadata = {
