@@ -44,9 +44,9 @@ resource "google_container_node_pool" "default" {
 }*/
 
 resource "google_compute_instance" "default" {
-  name         = "test"
-  machine_type = "n1-standard-1"
-  zone         = "us-central1-c"
+  name         = var.name
+  machine_type = var.machine_type
+  zone         = var.zone
 
   boot_disk {
     initialize_params {

@@ -1,0 +1,7 @@
+- name: Instance playbook
+  hosts: all
+  become: true
+  tasks:
+
+    - name: Echo test
+      command: "echo hello"
