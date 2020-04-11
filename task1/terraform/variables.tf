@@ -27,13 +27,9 @@ variable "project-id" {
 }
 
 variable "credentials" {
-  default = "admin-myproject.json"
+  default = "../admin-myproject.json"
 }
 
 variable "machine_type" {
   default = "n1-standard-1"
-}
-
-variable "password" {
-  default = ""
 }
