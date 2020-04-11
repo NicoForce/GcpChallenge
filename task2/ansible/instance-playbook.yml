@@ -2,6 +2,26 @@
   hosts: all
   become: true
   tasks:
+    - name: Add docker repo
+      shell:  'dnf config-manager \
+        --add-repo \
+        https://download.docker.com/linux/centos/docker-ce.repo'
 
-    - name: Echo test
-      command: "echo hello"
+    - name: Install docker
+      dnf:
+        name: docker-ce-3:18.09.1-3.el7
+        state: present
+
+    - name: Execute docker command
+      command: "{{ item }}"
+      loop:
+        - usermod -aG docker {{ ansible_ssh_user }}
+
+    - name: Create Jenkins
+      docker_container:
+        name: jenkins
+        image: jenkins:alpine
+        state: present
+        recreate: yes
+        exposed_ports:
+          - 8080

@@ -23,7 +23,8 @@ cd ..
 
 ansible playbook
 echo $HOST_IP
-echo "instance ansible_host=${HOST_IP} ansible_ssh_user=admin ansible_ssh_private_key_file=../id_rsa.key ansible_ssh_extra_args='-o StrictHostKeyChecking=no'" \
-  >> ansible/myhosts
-ansible-playbook ansible/instance-playbook.yml -i ansible/myhosts
+rm ansible/myhosts
+echo "task2-instance ansible_host=${HOST_IP} ansible_ssh_user=admin ansible_ssh_extra_args='-o StrictHostKeyChecking=no'" \
+  > ansible/myhosts
+ansible-playbook ansible/instance-playbook.yml -i ansible/myhosts --private-key=id_rsa
 

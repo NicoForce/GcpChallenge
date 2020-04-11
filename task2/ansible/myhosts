@@ -1,2 +1,1 @@
-[instance]
-instance ansible_host=104.154.146.24 ansible_ssh_user=admin ansible_ssh_private_key_file=../id_rsa.pub ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+task2-instance ansible_host=104.154.146.24 ansible_ssh_user=admin ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
