@@ -68,9 +68,13 @@ function delete() {
 
 # Output
 function output() {
-  kubectl get svc
+  EXTERNAL_IP=$(kubectl get svc nginx-ingress-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  if [[ "$EXTERNAL_IP" == *"The connection to the server"* ]]; then
+    echo "Kubernetes cluster is down or ingress is not ready yet."
+  else
+    echo "Access the python app at http://${EXTERNAL_IP}/greetings or http://${EXTERNAL_IP}/square"
+  fi
 }
-
 
 case "$1" in
 "CREATE")  echo "Create command identified"
