@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mypythonapp
+  name: mypythonapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mypythonapp
+  template:
+    metadata:
+      labels:
+        app: mypythonapp
+    spec:
+      containers:
+        - image: gcr.io/robust-flow-273318/mypythonapp:latest
+          name: mypythonapp
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+              name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mypythonapp
+  name: mypythonapp
+spec:
+  ports:
+    - name: http
+      port: 5000
+      protocol: TCP
+  selector:
+    app: mypythonapp
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-python-app
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            backend:
+              serviceName: mypythonapp
+              servicePort: 5000
+...

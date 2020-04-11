@@ -1,17 +1,15 @@
-FROM ubuntu:latest
+#FROM ubuntu:latest
+FROM python:3.6.1-alpine
 
-RUN apt-get update -y && \
-    apt-get install -y python3-pip
-
-# We copy just the requirements.txt first to leverage Docker cache
-#COPY ./requirements.txt /app/requirements.txt
+#RUN apt-get update -y && \
+#    apt-get install -y python3-pip
 
 WORKDIR /app
 
-RUN pip3 install flask
+RUN pip install flask
 
-COPY . /app
+COPY app.py /app/app.py
 
-ENTRYPOINT [ "python3"]
+#ENTRYPOINT [ "python"]
 
-CMD [ "app.py" ]
+CMD [ "python", "app.py" ]

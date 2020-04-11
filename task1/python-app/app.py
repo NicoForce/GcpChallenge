@@ -2,11 +2,7 @@ import os
 from flask import Flask, request
 app = Flask('task')
 
-@app.route('/')
-def hello_world():
-    return 'Hey, we have Flask in a Docker container!'
-
-@app.route('/greetings')
+@app.route('/greetings', methods = ['GET', 'POST'])
 def greetings():
     return 'Hello World from ' + os.uname()[1]
 
@@ -14,8 +10,8 @@ def greetings():
 def square():
     if request.method == 'POST':
         number = int(request.form.get('number'))
-        return number * number
+        return str(number * number)
     else:
-        return 'No number received'
+        return 'No number received, use a POST call'
 
 app.run(debug=False, host='0.0.0.0')
