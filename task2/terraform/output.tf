@@ -7,9 +7,5 @@ output "version" {
 }
 
 output "nat_ip" {
-  value = google_compute_instance.default.network_interface.access_config.assigned_nat_ip
-}
-
-output "domain_name" {
-  value = google_compute_instance.default.network_interface.access_config.public_ptr_domain_name
+  value = google_compute_instance.default.network_interface.0.access_config.0.nat_ip
 }
