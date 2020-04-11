@@ -1,30 +1,13 @@
 # Identify action required: CREATE, DESTROY or OUTPUT
-
-# Create
 if [ $# -lt 2 ]
 then
-        echo "Usage : ./main.sh [CREATE/DELETE/OUTPUT] JSON_KEY_PATH MY_PROJECT"
-        exit
+    echo "Usage : ./main.sh [CREATE/DELETE/OUTPUT] JSON_KEY_PATH"
+    exit
 fi
 
 JSON_KEY="${2}"
 PROJECT_ID=$(jq -r '.project_id' "${JSON_KEY}")
 KEY_EMAIL=$(jq -r '.client_email' "${JSON_KEY}")
-
-case "$1" in
-
-"CREATE")  echo "Create command identified"
-    create
-    exit 0;;
-"DELETE")  echo  "Delete command identified"
-    delete
-    exit 0;;
-"OUTPUT")  echo  "Output command identified"
-    output
-    exit 0;;
-*) echo "No Sub-command was found"
-   exit 1;;
-esac
 
 function create() {
   #set on stone variables
@@ -54,9 +37,6 @@ function create() {
     --serviceaccount=kube-system:tiller
   helm init --service-account tiller
   kubectl rollout status deployment tiller-deploy -n kube-system
-  helm install --name nginx-ingress stable/nginx-ingress \
-    --set rbac.create=true \
-    --set controller.publishService.enabled=true
   kubectl create secret docker-registry ${SECRET_NAME} \
     --docker-server=https://gcr.io \
     --docker-username=_json_key \
@@ -68,11 +48,14 @@ function create() {
   docker build --rm -t "gcr.io/${PROJECT_ID}/mypythonapp" .
   docker push "gcr.io/${PROJECT_ID}/mypythonapp"
   kubectl apply -f app.yaml
+
+  #Helm chart at the end because it tends to fail
+  helm install --name nginx-ingress stable/nginx-ingress \
+    --set rbac.create=true \
+    --set controller.publishService.enabled=true
 }
 
 # Destroy
-
-
 function delete() {
   cd terraform || exit 1
   terraform destroy -auto-approve \
@@ -87,3 +70,18 @@ function delete() {
 function output() {
   kubectl get svc
 }
+
+
+case "$1" in
+"CREATE")  echo "Create command identified"
+    create
+    exit 0;;
+"DELETE")  echo  "Delete command identified"
+    delete
+    exit 0;;
+"OUTPUT")  echo  "Output command identified"
+    output
+    exit 0;;
+*) echo "No Sub-command was found"
+   exit 1;;
+esac
