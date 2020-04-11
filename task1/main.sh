@@ -11,7 +11,7 @@ KEY_EMAIL=$(jq -r '.client_email' "${JSON_KEY}")
 
 function create() {
   #set on stone variables
-  NAME="challenge-cluster"
+  NAME="task1-cluster"
   REGION="us-central1"
   SECRET_NAME="registry"
 

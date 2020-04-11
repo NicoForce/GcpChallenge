@@ -1,5 +1,5 @@
 variable "name" {
-  default = "task1-cluster"
+  default = "task2-cluster"
 }
 
 variable "project" {
@@ -32,4 +32,12 @@ variable "credentials" {
 
 variable "machine_type" {
   default = "n1-standard-1"
+}
+
+variable "gce_ssh_user" {
+  default = "admin"
+}
+
+variable "gce_ssh_pub_key_file" {
+  default = "../id_rsa.pub"
 }
