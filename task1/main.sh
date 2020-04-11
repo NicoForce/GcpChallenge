@@ -17,6 +17,7 @@ function create() {
 
   # Terraform phase
   cd terraform || exit 1
+  terraform init
   terraform plan
   terraform apply -auto-approve \
     -var "project-id=${PROJECT_ID}" \
