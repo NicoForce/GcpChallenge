@@ -11,12 +11,13 @@ KEY_EMAIL=$(jq -r '.client_email' "${JSON_KEY}")
 
 function create() {
   #set on stone variables
-  NAME="challenge-cluster"
+  NAME="task1-cluster"
   REGION="us-central1"
   SECRET_NAME="registry"
 
   # Terraform phase
   cd terraform || exit 1
+  terraform init
   terraform plan
   terraform apply -auto-approve \
     -var "project-id=${PROJECT_ID}" \
