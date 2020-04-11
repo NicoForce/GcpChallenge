@@ -5,7 +5,7 @@ provider "google" {
   zone    = var.zone
 }
 
-resource "google_container_cluster" "default" {
+/*resource "google_container_cluster" "default" {
   name        = var.name
   location    = var.location
 
@@ -41,7 +41,7 @@ resource "google_container_node_pool" "default" {
       "https://www.googleapis.com/auth/monitoring",
     ]
   }
-}
+}*/
 
 resource "google_compute_instance" "default" {
   name         = "test"
